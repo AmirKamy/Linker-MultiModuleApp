@@ -1,5 +1,5 @@
 pluginManagement {
-    in cludeBuild("build-logic")
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -23,3 +23,8 @@ dependencyResolutionManagement {
 rootProject.name = "linker"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
+include(":core:model")
+include(":core:data")
+include(":feature:home")
+include(":core:common")
+include(":feature:my-games")

@@ -8,8 +8,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("starter.android.library")
-                apply("starter.android.hilt")
+                apply("linker.android.library")
+                apply("linker.android.hilt")
                 apply("org.jetbrains.kotlin.plugin.serialization")
             }
 

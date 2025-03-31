@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.core.data"
+    namespace = "com.example.linker.core.common"
 }
 
 dependencies {
