@@ -43,6 +43,10 @@ android {
 
 dependencies {
 
+    implementation(projects.core.designsystem)
+    implementation(projects.feature.home)
+    implementation(projects.feature.myGames)
+    implementation(projects.feature.search)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
