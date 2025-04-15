@@ -22,6 +22,7 @@ dependencies {
     compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
 }
 
 tasks {
@@ -56,6 +57,10 @@ gradlePlugin {
         register("androidHilt") {
             id = "linker.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
+        }
+        register("androidRoom") {
+            id = "linker.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
         }
     }
 }

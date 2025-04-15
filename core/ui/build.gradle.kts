@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.linker.android.library)
+    alias(libs.plugins.linker.android.library.compose)
 }
 
 android {
@@ -7,5 +8,7 @@ android {
 }
 
 dependencies {
+    api(projects.core.model)
+    api(projects.core.designsystem)
 
 }

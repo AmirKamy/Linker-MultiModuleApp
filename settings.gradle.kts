@@ -15,6 +15,8 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven { url = uri("https://maven.aliyun.com/repository/google") }
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
         google()
         mavenCentral()
     }
@@ -31,3 +33,5 @@ include(":feature:my-games")
 include(":core:ui")
 include(":core:designsystem")
 include(":feature:search")
+include(":core:database")
+include(":core:domain")
