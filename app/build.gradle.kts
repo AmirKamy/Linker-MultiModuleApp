@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.example.linker"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.linker"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -45,9 +45,6 @@ dependencies {
 
     implementation(projects.core.designsystem)
     implementation(projects.feature.home)
-    implementation(projects.feature.myGames)
-    implementation(projects.feature.search)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     testImplementation(libs.junit)

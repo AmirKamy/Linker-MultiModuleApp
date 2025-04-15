@@ -2,6 +2,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://google403.ir") }
     }
     versionCatalogs {
         create("libs") {

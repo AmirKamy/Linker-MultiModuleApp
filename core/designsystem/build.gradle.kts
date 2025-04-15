@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.linker.android.library)
     alias(libs.plugins.linker.android.library.compose)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {

@@ -10,6 +10,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://google403.ir") }
     }
 }
 dependencyResolutionManagement {
@@ -17,6 +18,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://google403.ir") }
+
     }
 }
 
@@ -27,7 +30,6 @@ include(":core:model")
 include(":core:data")
 include(":feature:home")
 include(":core:common")
-include(":feature:my-games")
 include(":core:ui")
 include(":core:designsystem")
-include(":feature:search")
+include(":core:database")

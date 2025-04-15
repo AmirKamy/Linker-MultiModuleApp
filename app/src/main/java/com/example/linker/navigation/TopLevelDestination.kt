@@ -21,9 +21,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.linker.R
 import com.example.linker.core.designsystem.icon.LinkerIcons
 import com.example.linker.feature.home.navigation.HomeDestination
-import com.example.linker.feature.my_games.navigation.MyGamesDestination
-import com.example.linker.feature.search.navigation.SearchDestination
-import kotlin.reflect.KClass
 
 enum class TopLevelDestination(
     val selectedIcon: ImageVector,
@@ -36,18 +33,6 @@ enum class TopLevelDestination(
         unselectedIcon = LinkerIcons.Home,
         titleTextId = R.string.home,
         route = HomeDestination.HomeScreen.route,
-    ),
-    SEARCH(
-        selectedIcon = LinkerIcons.Search,
-        unselectedIcon = LinkerIcons.Search,
-        titleTextId = R.string.search,
-        route = SearchDestination.SearchScreen.route,
-    ),
-    MY_GAMES(
-        selectedIcon = LinkerIcons.Games,
-        unselectedIcon = LinkerIcons.Games,
-        titleTextId = R.string.my_games,
-        route = MyGamesDestination.MyGamesScreen.route,
     )
 }
 
