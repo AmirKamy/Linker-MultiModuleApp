@@ -18,12 +18,14 @@ kotlinxSerializationJson = "1.6.3"
 ksp = "2.1.20-2.0.0"
 appcompat = "1.7.0"
 material = "1.12.0"
-room = "2.6.1"
+mpandroidchart = "v3.1.0"
+room = "2.7.0"
 kotlinxCoroutines = "1.10.1"
 foundationLayoutAndroid = "1.6.7"
 
 [libraries]
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }

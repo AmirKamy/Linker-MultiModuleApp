@@ -1,127 +1,163 @@
 package com.example.linker.feature.home
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.input.pointer.pointerInput
+import com.example.linker.core.designsystem.component.MetalItem
 import com.example.linker.core.model.ChartDataGroup
-import com.example.linker.core.model.DataPoint
+import com.example.linker.core.model.Resource
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
-    val chartData by viewModel.chartDataGroup.collectAsState()
 
-//    Column(modifier = Modifier.padding(16.dp)) {
-//        chartData.let { data ->
-//            Text("platinum: ${data.platinum.size} points")
-//            Text("silver: ${data.silver.size} points")
-//            Text("gold: ${data.gold.size} points")
-//        }
-//    }
+    val state by viewModel.chartDataGroup.collectAsState()
 
-    AnimatedLineChart(chartData)
+    when (state) {
+        is Resource.Loading -> {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+
+        is Resource.Error -> {
+            val message = (state as Resource.Error).message
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(text = "خطا: $message")
+            }
+        }
+
+        is Resource.Success -> {
+            val data = (state as Resource.Success).data
+            ShowContent(data)
+        }
+    }
 
 }
 
 
 @Composable
-fun AnimatedLineChart(
-    chartDataGroup: ChartDataGroup,
-    modifier: Modifier = Modifier
-) {
-    val animationProgress = remember { Animatable(0f) }
-    LaunchedEffect(Unit) {
-        animationProgress.animateTo(1f, tween(durationMillis = 1000))
-    }
-
-    var selectedPoint by remember { mutableStateOf<DataPoint?>(null) }
-
-    val allData = chartDataGroup.platinum + chartDataGroup.silver + chartDataGroup.gold
-    val xValues = allData.map { it.timestamp }
-    val yValues = allData.map { it.value }
-    if (xValues.isEmpty() || yValues.isEmpty()) return
-
-    val minX = xValues.minOrNull() ?: 0L
-    val maxX = xValues.maxOrNull() ?: 1L
-    val minY = yValues.minOrNull() ?: 0f
-    val maxY = yValues.maxOrNull() ?: 1f
-
-    Box(modifier = modifier.padding(16.dp)) {
-        Canvas(modifier = Modifier
+fun ShowContent(
+    chartDataGroup: ChartDataGroup
+){
+    Column(
+        modifier = Modifier
             .fillMaxSize()
-            .pointerInput(Unit) {
-                detectTapGestures { offset ->
-                    val width = size.width
-                    val height = size.height
-                    val clickedPoint = allData.minByOrNull { dp ->
-                        val x = ((dp.timestamp - minX).toFloat() / (maxX - minX)) * width
-                        val y = height - ((dp.value - minY) / (maxY - minY)) * height * animationProgress.value
-                        Offset(x, y).getDistanceTo(offset)
-                    }
-                    selectedPoint = clickedPoint
-                }
-            }) {
+            .padding(16.dp)
+    ) {
 
-            val width = size.width
-            val height = size.height
+        var showPlatinum by remember { mutableStateOf(true) }
+        var showSilver by remember { mutableStateOf(true) }
+        var showGold by remember { mutableStateOf(true) }
 
-            fun drawLineForDataset(dataset: List<DataPoint>, color: Color) {
-                for (i in 1 until dataset.size) {
-                    val p1 = dataset[i - 1]
-                    val p2 = dataset[i]
-                    val x1 = ((p1.timestamp - minX).toFloat() / (maxX - minX)) * width
-                    val y1 = height - ((p1.value - minY) / (maxY - minY)) * height * animationProgress.value
-                    val x2 = ((p2.timestamp - minX).toFloat() / (maxX - minX)) * width
-                    val y2 = height - ((p2.value - minY) / (maxY - minY)) * height * animationProgress.value
-                    drawLine(color, Offset(x1, y1), Offset(x2, y2), strokeWidth = 4f)
-                }
+        Card(
+            modifier = Modifier
+                .padding(top = 32.dp, bottom = 24.dp)
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        ) {
+            Column {
+
+                Text(
+                    text = stringResource(R.string.line_view),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.Right,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp, end = 20.dp)
+                )
+                MPLineChart(
+                    platinum = chartDataGroup.platinum,
+                    palladium = chartDataGroup.palladium,
+                    gold = chartDataGroup.gold,
+                    isPlatinumVisible = showPlatinum,
+                    isSilverVisible = showSilver,
+                    isGoldVisible = showGold,
+                    modifier = Modifier.padding(8.dp)
+                )
+
+            }
+        }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+
+                Text(
+                    text = stringResource(R.string.value_show),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.Right,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp, end = 20.dp, bottom = 5.dp)
+                )
+
+                MetalItem(
+                    iconItem = Color(chartDataGroup.platinum.color),
+                    title = chartDataGroup.platinum.name,
+                    number = chartDataGroup.platinum.data.last().value.toString(),
+                    isToggled = showPlatinum,
+                    onToggleChanged = { showPlatinum = it }
+                )
+
+                MetalItem(
+                    iconItem = Color(chartDataGroup.palladium.color),
+                    title = chartDataGroup.palladium.name,
+                    number = chartDataGroup.palladium.data.last().value.toString(),
+                    isToggled = showSilver,
+                    onToggleChanged = { showSilver = it }
+                )
+
+                MetalItem(
+                    iconItem = Color(chartDataGroup.gold.color),
+                    title = chartDataGroup.gold.name,
+                    number = chartDataGroup.gold.data.last().value.toString(),
+                    isToggled = showGold,
+                    onToggleChanged = { showGold = it }
+                )
             }
 
-            drawLineForDataset(chartDataGroup.platinum, Color.Red)
-            drawLineForDataset(chartDataGroup.silver, Color.Green)
-            drawLineForDataset(chartDataGroup.gold, Color.Blue)
-
-            selectedPoint?.let { dp ->
-                val x = ((dp.timestamp - minX).toFloat() / (maxX - minX)) * width
-                val y = height - ((dp.value - minY) / (maxY - minY)) * height * animationProgress.value
-
-                drawCircle(Color.Black, radius = 8f, center = Offset(x, y))
-                drawIntoCanvas { canvas ->
-                    val text = "${dp.value}"
-                    val paint = android.graphics.Paint().apply {
-                        color = android.graphics.Color.BLACK
-                        textSize = 32f
-                        isAntiAlias = true
-                    }
-                    canvas.nativeCanvas.drawText(
-                        text,
-                        x + 10f,
-                        y - 20f,
-                        paint
-                    )
-                }
-            }
         }
     }
 }
 
-private fun Offset.getDistanceTo(other: Offset): Float {
-    return (this - other).getDistance()
-}
+
+
+
+
+

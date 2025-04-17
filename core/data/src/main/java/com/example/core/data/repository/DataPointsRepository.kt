@@ -8,4 +8,6 @@ interface DataPointsRepository {
 
     fun getDataForDataset(name: String): Flow<List<DataPoint>>
 
+    suspend fun generateTestData()
+
 }

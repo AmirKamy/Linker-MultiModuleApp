@@ -22,6 +22,5 @@ internal object DatabaseModule {
         LinkerDB::class.java,
         "linker-database",
     )
-        .createFromAsset("linker-database.db")
         .build()
 }
