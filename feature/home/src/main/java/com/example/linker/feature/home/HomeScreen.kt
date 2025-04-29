@@ -55,7 +55,10 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), onProductClick: (Int)
 
         is Resource.Success -> {
             val data = (state as Resource.Success).data
-            ShowContent(data, onProductClick, viewModel)
+            ShowContent(data, viewModel) { product ->
+                viewModel.selectProduct(product)
+                onProductClick(product.id)
+            }
         }
     }
 
@@ -66,11 +69,11 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), onProductClick: (Int)
 @Composable
 fun ShowContent(
     products: List<Product>,
-    onProductClick: (Int) -> Unit,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    onProductClick: (Product) -> Unit
 ) {
 
-    val cartItems = remember { mutableStateListOf<Int>() }
+    val cartItems = viewModel.cartItems
     val cartCount = cartItems.size
 
     Scaffold(
@@ -124,10 +127,7 @@ fun ShowContent(
                             cartItems.add(product.id)
                         }
                     },
-                    onItemClick = {
-                        onProductClick(product.id)
-                        viewModel.selectProduct(product)
-                    }
+                    onItemClick = onProductClick
                 )
             }
         }

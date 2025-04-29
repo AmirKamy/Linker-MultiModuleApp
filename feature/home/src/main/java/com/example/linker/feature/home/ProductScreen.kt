@@ -71,10 +71,12 @@ fun ProductDetailScreen(
             )
         },
         content = { paddingValues ->
-            Text(
-                modifier = Modifier.padding(paddingValues),
-                text = "productId: $productId"
-            )
+            Box(modifier = Modifier.padding(paddingValues)) {
+                Text(
+                    text = productId.toString()
+                )
+            }
+
         }
     )
 }
