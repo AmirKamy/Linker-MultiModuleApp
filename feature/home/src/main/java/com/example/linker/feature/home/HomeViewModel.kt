@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.data.repository.DataPointsRepository
 import com.example.linker.core.model.ChartDataGroup
+import com.example.linker.core.model.Product
 import com.example.linker.core.model.Resource
 import com.linker.core.domain.GetChartDataGroupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,12 +20,10 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getDataPointsUseCase: GetChartDataGroupUseCase,
-    private val repository: DataPointsRepository
 ) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            repository.generateTestData()
 
             getDataPointsUseCase()
                 .catch { e ->
@@ -36,15 +35,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-//    val chartDataGroup : StateFlow<ChartDataGroup> = getDataPointsUseCase()
-//        .stateIn(
-//            viewModelScope,
-//            SharingStarted.WhileSubscribed(5000),
-//            ChartDataGroup(emptyList(), emptyList(), emptyList()),
-//        )
-
-    private val _chartDataGroup = MutableStateFlow<Resource<ChartDataGroup>>(Resource.Loading)
-    val chartDataGroup: StateFlow<Resource<ChartDataGroup>> = _chartDataGroup
+    private val _chartDataGroup = MutableStateFlow<Resource<List<Product>>>(Resource.Loading)
+    val chartDataGroup: StateFlow<Resource<List<Product>>> = _chartDataGroup
 
 
 

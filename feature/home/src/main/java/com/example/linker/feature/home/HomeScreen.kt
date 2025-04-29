@@ -1,18 +1,27 @@
 package com.example.linker.feature.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,12 +31,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.linker.core.designsystem.component.MetalItem
 import com.example.linker.core.model.ChartDataGroup
+import com.example.linker.core.model.Product
 import com.example.linker.core.model.Resource
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -59,101 +70,54 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShowContent(
-    chartDataGroup: ChartDataGroup
+    chartDataGroup: List<Product>
 ){
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
 
-        var showPlatinum by remember { mutableStateOf(true) }
-        var showSilver by remember { mutableStateOf(true) }
-        var showGold by remember { mutableStateOf(true) }
-
-        Card(
-            modifier = Modifier
-                .padding(top = 32.dp, bottom = 24.dp)
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        ) {
-            Column {
-
-                Text(
-                    text = stringResource(R.string.line_view),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Right,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp, end = 20.dp)
-                )
-                MPLineChart(
-                    platinum = chartDataGroup.platinum,
-                    palladium = chartDataGroup.palladium,
-                    gold = chartDataGroup.gold,
-                    isPlatinumVisible = showPlatinum,
-                    isSilverVisible = showSilver,
-                    isGoldVisible = showGold,
-                    modifier = Modifier.padding(8.dp)
-                )
-
-            }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.cart),
+                            contentDescription = "Icon",
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Text(
+                            modifier = Modifier.padding(end = 16.dp),
+                            text = "محصولات",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+            )
         }
-
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+    ) { paddingValues ->
+        LazyColumn(
+            contentPadding = paddingValues,
+            modifier = Modifier.fillMaxSize()
         ) {
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-
-                Text(
-                    text = stringResource(R.string.value_show),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Right,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp, end = 20.dp, bottom = 5.dp)
-                )
-
-                MetalItem(
-                    iconItem = Color(chartDataGroup.platinum.color),
-                    title = chartDataGroup.platinum.name,
-                    number = chartDataGroup.platinum.data.last().value.toString(),
-                    isToggled = showPlatinum,
-                    onToggleChanged = { showPlatinum = it }
-                )
-
-                MetalItem(
-                    iconItem = Color(chartDataGroup.palladium.color),
-                    title = chartDataGroup.palladium.name,
-                    number = chartDataGroup.palladium.data.last().value.toString(),
-                    isToggled = showSilver,
-                    onToggleChanged = { showSilver = it }
-                )
-
-                MetalItem(
-                    iconItem = Color(chartDataGroup.gold.color),
-                    title = chartDataGroup.gold.name,
-                    number = chartDataGroup.gold.data.last().value.toString(),
-                    isToggled = showGold,
-                    onToggleChanged = { showGold = it }
-                )
+            items(chartDataGroup) { item ->
+                ProductItem(item)
             }
-
         }
     }
+
+
+
+}
+
+
+@Composable
+fun ProductItem(product: Product){
+    Text(text = product.title)
 }
 
 
