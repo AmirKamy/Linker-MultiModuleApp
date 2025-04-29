@@ -1,9 +1,8 @@
 package com.example.linker.core.designsystem.component
 
 import androidx.compose.runtime.Composable
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,24 +14,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.linker.core.designsystem.R
+import com.example.linker.core.model.Product
 
 
 @Composable
 fun MetalItem(
-    iconItem: Color,
-    title: String,
-    number: String,
-    isToggled: Boolean,
-    onToggleChanged: (Boolean) -> Unit,
+    product: Product,
+    isInCart: Boolean,
+    onToggleCart: (Boolean) -> Unit,
+    onItemClick: (id: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .clickable { onItemClick(product.id) }
             .border(
                 width = 1.dp,
                 color = Color.LightGray,
@@ -50,14 +52,14 @@ fun MetalItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Toggle Button (سمت چپ)
-            IconToggleButton(
-                checked = isToggled,
-                onCheckedChange = onToggleChanged
-            ) {
-                val icon = if (isToggled) Icons.Filled.Check else Icons.Outlined.CheckBoxOutlineBlank
-                Icon(imageVector = icon, contentDescription = null)
-            }
+            // Toggle Button
+            val icon = if (isInCart) R.drawable.order_placed else R.drawable.add_to_cart
+            Icon(
+                painter = painterResource(id = icon),
+                contentDescription = null,
+                modifier = Modifier.clickable { onToggleCart(!isInCart) }
+                    .size(24.dp)
+            )
 
             Spacer(modifier = Modifier.width(8.dp))
 
@@ -71,11 +73,14 @@ fun MetalItem(
                     horizontalAlignment = Alignment.End
                 ) {
                     Text(
-                        text = title,
-                        style = MaterialTheme.typography.titleMedium
+                        text = product.title,
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.fillMaxWidth()
                     )
                     Text(
-                        text = number,
+                        text = product.price.toString(),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -86,10 +91,9 @@ fun MetalItem(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)
-                        .background(iconItem)
                 )
+
             }
         }
     }
 }
-

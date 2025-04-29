@@ -2,4 +2,7 @@ package com.example.linker.feature.home.navigation
 
 sealed class HomeDestination(val route: String) {
     data object HomeScreen : HomeDestination("home_screen")
+    data object DetailScreen : HomeDestination("detail_screen/{productId}") {
+        fun createRoute(productId: Int) = "detail_screen/$productId"
+    }
 }

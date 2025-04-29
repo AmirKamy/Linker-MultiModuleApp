@@ -10,4 +10,6 @@ interface LinkerNetworkDataSource {
 
     suspend fun getAllProducts(): List<ProductDto>
 
+    suspend fun getProductById(id: Int): ProductDto
+
 }

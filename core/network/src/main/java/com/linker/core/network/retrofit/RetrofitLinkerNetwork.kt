@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Path
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,6 +21,9 @@ interface RetrofitLinkerNetworkApi {
 
     @GET(value = "products")
     suspend fun getAllProducts(): List<ProductDto>
+
+    @GET("products/{id}")
+    suspend fun getProductById(@Path("id") id: Int): ProductDto
 
 }
 
@@ -35,4 +39,8 @@ class RetrofitLinkerNetwork @Inject constructor(
 
     override suspend fun getAllProducts(): List<ProductDto> =
         api.getAllProducts()
+
+    override suspend fun getProductById(id: Int): ProductDto =
+        api.getProductById(id)
+
 }

@@ -14,5 +14,5 @@ dependencies {
     implementation(projects.core.domain)
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.mpandroidchart)
-    implementation(libs.accompanist)
+//    implementation(libs.accompanist)
 }
