@@ -23,7 +23,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-
             getDataPointsUseCase()
                 .catch { e ->
                     _chartDataGroup.value = Resource.Error(e.message ?: "خطا در دریافت داده")
@@ -41,12 +40,22 @@ class HomeViewModel @Inject constructor(
 
     val cartItems = mutableStateListOf<Int>()
 
-    fun selectProduct(product: Product){
+    fun selectProduct(product: Product) {
         selectedProduct.value = product
     }
 
-
-
+    fun getDataPoint() {
+        viewModelScope.launch {
+            _chartDataGroup.value = Resource.Loading
+            getDataPointsUseCase()
+                .catch { e ->
+                    _chartDataGroup.value = Resource.Error(e.message ?: "خطا در دریافت داده")
+                }
+                .collect { chartGroup ->
+                    _chartDataGroup.value = Resource.Success(chartGroup)
+                }
+        }
+    }
 
 
 }

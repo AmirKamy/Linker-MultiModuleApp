@@ -1,5 +1,6 @@
 package com.example.linker.core.designsystem.component
 
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.linker.core.model.Product
@@ -49,7 +51,42 @@ fun MetalItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Toggle Button
+
+            DynamicAsyncImage(
+                imageUrl = product.image,
+                contentDescription = "Product Image",
+                modifier = Modifier
+                    .size(50.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                ,
+                contentScale = ContentScale.Fit
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = product.title,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = product.price.toString(),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+
+//            Spacer(modifier = Modifier.width(8.dp))
+
+
+
+            Spacer(modifier = Modifier.width(8.dp))
+
             val icon = if (isInCart) Icons.Default.Delete else Icons.Default.Add
             Icon(
                 imageVector = icon,
@@ -58,40 +95,7 @@ fun MetalItem(
                     .clickable { onToggleCart(!isInCart) }
                     .size(24.dp)
             )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Row(
-                modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Text(
-                        text = product.title,
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Text(
-                        text = product.price.toString(),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                )
-
-            }
         }
     }
 }
+

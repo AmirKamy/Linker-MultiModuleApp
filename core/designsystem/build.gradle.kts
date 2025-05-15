@@ -13,6 +13,7 @@ android {
 dependencies {
     implementation(projects.core.model)
     implementation(libs.coil.kt)
+    implementation(libs.coil.kt.compose)
     implementation(libs.material.icon.extended)
     api(libs.androidx.compose.material.iconsExtended)
     api(libs.androidx.compose.ui.ui)

@@ -9,122 +9,122 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.example.linker.core.designsystem.R
 
-val isCheckFontFamily = FontFamily(
-    Font(R.font.is_check_regular)
+val robotoFontFamily = FontFamily(
+    Font(R.font.roboto_regular)
 )
 
 val Typography = Typography(
     displayLarge = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 57.sp,
         lineHeight = 64.sp,
         letterSpacing = (-0.25).sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     displayMedium = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 45.sp,
         lineHeight = 52.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     displaySmall = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 36.sp,
         lineHeight = 44.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     headlineLarge = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 32.sp,
         lineHeight = 40.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     headlineMedium = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 28.sp,
         lineHeight = 36.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     headlineSmall = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 24.sp,
         lineHeight = 32.sp,
-        textAlign = TextAlign.Right,
+        textAlign = TextAlign.Left,
     ),
     titleLarge = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp,
         lineHeight = 28.sp,
-        textAlign = TextAlign.Right,
+        textAlign = TextAlign.Left,
     ),
     titleMedium = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.1.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     titleSmall = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     bodyLarge = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
-        textAlign = TextAlign.Right,
+        textAlign = TextAlign.Left,
     ),
     bodyMedium = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.25.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     bodySmall = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.4.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     labelLarge = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     labelMedium = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     ),
     labelSmall = TextStyle(
-        fontFamily = isCheckFontFamily,
+        fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 10.sp,
         lineHeight = 14.sp,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Left
     )
 )
